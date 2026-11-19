@@ -1,0 +1,23 @@
+# Bring-your-own-ROM: nothing derived from Korg firmware is ever committed.
+# data/      user ROM dumps, oracle traces, extracted programs/tables
+# generated/ C++ emitted from the user's ROMs at build time
+/data/
+/generated/
+# roms/      the user's dumps for tools/make_plugin.py; only its README is tracked
+/roms/*
+!/roms/README.txt
+/build/
+/out/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Editors / OS
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+.DS_Store
+/engine/build/

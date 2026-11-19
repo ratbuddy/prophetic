@@ -1,0 +1,418 @@
+diff --git a/src/devices/cpu/h8/h8.cpp b/src/devices/cpu/h8/h8.cpp
+index e8dffee8..96be9f1e 100644
+--- a/src/devices/cpu/h8/h8.cpp
++++ b/src/devices/cpu/h8/h8.cpp
+@@ -343,8 +343,90 @@ void h8_device::recompute_bcount(u64 event_time)
+ 	m_bcount = total_cycles() + m_icount - event_time;
+ }
+ 
++void h8_device::kpdev_trace_open()
++{
++	m_kpdev_trace_init = true;
++	if (std::string_view(tag()) != ":subcpu")
++		return;
++	if (const char *ct = std::getenv("KPDEV_H8_CALLTRACE"))
++	{
++		std::string spec(ct);
++		const auto colon = spec.rfind(':');
++		if (colon != std::string::npos && colon > 1)
++		{
++			m_kpdev_callpc.assign(0x80000, 0);
++			const char *p = spec.c_str() + colon + 1;
++			while (*p)
++			{
++				char *end = nullptr;
++				const unsigned long pc = std::strtoul(p, &end, 16);
++				if (end == p)
++					break;
++				if (pc < 0x100000)
++					m_kpdev_callpc[pc >> 1] = 1;
++				p = (*end == ',') ? end + 1 : end;
++			}
++			m_kpdev_calltrace = std::fopen(spec.substr(0, colon).c_str(), "wb");
++			if (m_kpdev_calltrace)
++				std::setvbuf(m_kpdev_calltrace, nullptr, _IOFBF, 1 << 22);
++		}
++	}
++	if (const char *rd = std::getenv("KPDEV_H8_RAMDUMP"))
++	{
++		std::string spec(rd);
++		const auto colon = spec.rfind(':');
++		if (colon != std::string::npos && colon > 1)
++		{
++			m_kpdev_ramdump_prefix = spec.substr(0, colon);
++			const char *p = spec.c_str() + colon + 1;
++			while (*p)
++			{
++				char *end = nullptr;
++				const double s = std::strtod(p, &end);
++				if (end == p)
++					break;
++				m_kpdev_ramdump_cycles.push_back(u64(s * clock()));
++				p = (*end == ',') ? end + 1 : end;
++			}
++			std::sort(m_kpdev_ramdump_cycles.rbegin(), m_kpdev_ramdump_cycles.rend());   // pop from back
++		}
++	}
++	const char *env = std::getenv("KPDEV_H8_PCTRACE");
++	if (!env)
++		return;
++	std::string spec(env);
++	const auto c2 = spec.rfind(':');
++	const auto c1 = c2 == std::string::npos ? c2 : spec.rfind(':', c2 - 1);
++	if (c1 == std::string::npos)
++		return;
++	const double start = std::strtod(spec.c_str() + c1 + 1, nullptr);
++	const double end = std::strtod(spec.c_str() + c2 + 1, nullptr);
++	m_kpdev_trace_start = u64(start * clock());
++	m_kpdev_trace_end = u64(end * clock());
++	m_kpdev_trace = std::fopen(spec.substr(0, c1).c_str(), "wb");
++	if (m_kpdev_trace)
++		std::setvbuf(m_kpdev_trace, nullptr, _IOFBF, 1 << 22);
++}
++
++void h8_device::kpdev_ramdump(u64 cycle)
++{
++	m_kpdev_ramdump_cycles.pop_back();
++	const std::string path = m_kpdev_ramdump_prefix + "_" + std::to_string(cycle / 256) + ".bin";
++	if (std::FILE *f = std::fopen(path.c_str(), "wb"))
++	{
++		address_space &sp = space(AS_PROGRAM);
++		for (offs_t a = 0x40000; a < 0x60000; a++) std::fputc(sp.read_byte(a), f);
++		for (offs_t a = 0xffd10; a < 0xfff10; a++) std::fputc(sp.read_byte(a), f);
++		const u32 regs[3] = { u32(cycle), u32(cycle >> 32), m_NPC };
++		std::fwrite(regs, sizeof(regs), 1, f);
++		std::fclose(f);
++	}
++}
++
+ void h8_device::execute_run()
+ {
++	if (!m_kpdev_trace_init)
++		kpdev_trace_open();
+ 	internal_update(total_cycles());
+ 
+ 	m_icount -= m_count_before_instruction_step;
+@@ -366,6 +448,26 @@ void h8_device::execute_run()
+ 				m_PPC = m_NPC;
+ 				if(debugger_enabled())
+ 					debugger_instruction_hook(m_NPC);
++				if(!m_kpdev_ramdump_cycles.empty() && total_cycles() >= m_kpdev_ramdump_cycles.back())
++					kpdev_ramdump(total_cycles());
++				if(m_kpdev_calltrace && m_NPC < 0x100000 && m_kpdev_callpc[m_NPC >> 1]) {
++					u32 rec[10];
++					rec[0] = m_NPC;
++					rec[1] = u32(total_cycles());
++					for(int r = 0; r < 8; r++)
++						rec[2 + r] = (u32(m_R[r + 8]) << 16) | m_R[r];
++					std::fwrite(rec, sizeof(rec), 1, m_kpdev_calltrace);
++				}
++				if(m_kpdev_trace) {
++					const u64 c = total_cycles();
++					if(c >= m_kpdev_trace_end) {
++						std::fclose(m_kpdev_trace);
++						m_kpdev_trace = nullptr;
++					} else if(c >= m_kpdev_trace_start) {
++						const u32 rec[2] = { m_NPC, u32(c) };
++						std::fwrite(rec, sizeof(rec), 1, m_kpdev_trace);
++					}
++				}
+ 			}
+ 			do_exec_full();
+ 		}
+diff --git a/src/devices/cpu/h8/h8.h b/src/devices/cpu/h8/h8.h
+index d853a5a8..671d0279 100644
+--- a/src/devices/cpu/h8/h8.h
++++ b/src/devices/cpu/h8/h8.h
+@@ -164,6 +164,23 @@ protected:
+ 	virtual bool execute_input_edge_triggered(int inputnum) const noexcept override { return inputnum == INPUT_LINE_NMI; }
+ 	virtual void execute_run() override;
+ 
++	// --- PC trace (mpc-korg-prophecy oracle). KPDEV_H8_PCTRACE=<path>:<start_s>:<end_s> writes
++	// {u32 pc, u32 cycle_lo} per executed instruction of the ":subcpu" H8 within the window.
++	std::FILE *m_kpdev_trace = nullptr;
++	u64 m_kpdev_trace_start = 0, m_kpdev_trace_end = 0;
++	bool m_kpdev_trace_init = false;
++	void kpdev_trace_open();
++	// KPDEV_H8_CALLTRACE=<path>:<hexpc>[,<hexpc>...] writes {u32 pc, u32 cycle_lo, u32 er0..er7}
++	// whenever ":subcpu" is about to execute one of the listed PCs (whole run).
++	std::FILE *m_kpdev_calltrace = nullptr;
++	std::vector<u8> m_kpdev_callpc;
++	// KPDEV_H8_RAMDUMP=<prefix>:<seconds>[,<seconds>...] writes <prefix>_<frame48k>.bin = SRAM
++	// 0x40000-0x5FFFF + on-chip RAM 0xFFD10-0xFFF0F at the first instruction boundary at/after
++	// each time (frame = cycle / 256).
++	std::string m_kpdev_ramdump_prefix;
++	std::vector<u64> m_kpdev_ramdump_cycles;
++	void kpdev_ramdump(u64 cycle);
++
+ 	// device_memory_interface implementation
+ 	virtual space_config_vector memory_space_config() const override;
+ 
+diff --git a/src/devices/cpu/tms57002/tms57002.cpp b/src/devices/cpu/tms57002/tms57002.cpp
+index 3f1a0ad8..90b7d67f 100644
+--- a/src/devices/cpu/tms57002/tms57002.cpp
++++ b/src/devices/cpu/tms57002/tms57002.cpp
+@@ -100,6 +100,7 @@ std::unique_ptr<util::disasm_interface> tms57002_device::create_disassembler()
+ 
+ void tms57002_device::pload_w(int state)
+ {
++	replay_rec('L', u8(state));
+ 	u8 olds = sti;
+ 	if (state)
+ 		sti &= ~IN_PLOAD;
+@@ -107,6 +108,7 @@ void tms57002_device::pload_w(int state)
+ 		sti |= IN_PLOAD;
+ 	if (olds ^ sti)
+ 	{
++		host_trace('L', (sti & IN_PLOAD) ? 1 : 0, 0);
+ 		m_program_version++;   // M4: PLOAD (re)loads microcode + flushes the decode cache -> invalidate any JIT frame keyed on the old program
+ 		if (sti & IN_PLOAD)
+ 		{
+@@ -124,6 +126,7 @@ void tms57002_device::pload_w(int state)
+ 
+ void tms57002_device::cload_w(int state)
+ {
++	replay_rec('C', u8(state));
+ 	u8 olds = sti;
+ 	if (state)
+ 		sti &= ~IN_CLOAD;
+@@ -131,6 +134,7 @@ void tms57002_device::cload_w(int state)
+ 		sti |= IN_CLOAD;
+ 	if (olds ^ sti)
+ 	{
++		host_trace('C', (sti & IN_CLOAD) ? 1 : 0, 0);
+ 		if (sti & IN_CLOAD)
+ 		{
+ 			hidx = 0;
+@@ -150,6 +154,43 @@ void tms57002_device::cload_w(int state)
+ // this TU has (tms57002_jit.h is included above).
+ tms57002_device::~tms57002_device() = default;
+ 
++void tms57002_device::host_trace(char kind, unsigned index, u32 value)
++{
++	if (!m_host_trace)
++		return;
++	const attotime now = machine().time();
++	std::fprintf(m_host_trace, "%c,%u,%08X,%llu,%.9f\n", kind, index, value,
++		(unsigned long long)now.as_ticks(48000), now.as_double());
++}
++
++void tms57002_device::replay_rec(u8 kind, u8 a, const u32 *v)
++{
++	if (!m_replay_trace)
++		return;
++	u32 rec[11] = {};
++	rec[0] = u32(kind) | (u32(a) << 8);
++	rec[1] = u32(m_sound_updates);
++	rec[2] = m_trace_steps;
++	if (v)
++		for (int i = 0; i < 8; i++)
++			rec[3 + i] = v[i];
++	std::fwrite(rec, sizeof(rec), 1, m_replay_trace);
++}
++
++void tms57002_device::device_stop()
++{
++	if (m_host_trace)
++	{
++		std::fclose(m_host_trace);
++		m_host_trace = nullptr;
++	}
++	if (m_replay_trace)
++	{
++		std::fclose(m_replay_trace);
++		m_replay_trace = nullptr;
++	}
++}
++
+ void tms57002_device::device_post_load()
+ {
+ 	// A restored savestate carries the device's architectural state but NOT the Jit's cross-frame
+@@ -223,6 +264,7 @@ void tms57002_device::device_reset()
+ 
+ void tms57002_device::data_w(u8 data)
+ {
++	replay_rec('D', data);
+ 	switch (sti & (IN_PLOAD|IN_CLOAD))
+ 	{
+ 	case 0:
+@@ -239,14 +281,17 @@ void tms57002_device::data_w(u8 data)
+ 			switch (sti & SU_MASK)
+ 			{
+ 			case SU_ST0:
++				host_trace('S', 0, val);
+ 				st0 = val;
+ 				sti = (sti & ~SU_MASK) | SU_ST1;
+ 				break;
+ 			case SU_ST1:
++				host_trace('S', 1, val);
+ 				st1 = val;
+ 				sti = (sti & ~SU_MASK) | SU_PRG;
+ 				break;
+ 			case SU_PRG:
++				host_trace('P', pc, val);
+ 				program->write_dword(pc++, val);
+ 				update_pc0();
+ 				break;
+@@ -266,6 +311,7 @@ void tms57002_device::data_w(u8 data)
+ 			if (hidx >= 4)
+ 			{
+ 				u32 val = (host[0]<<24) | (host[1]<<16) | (host[2]<<8) | host[3];
++				host_trace('U', sa, val);
+ 				if (m_update_timing_mode == update_timing_mode::eager && update_timing_selected(sa))
+ 				{
+ 					write_cmem_direct(sa, val, "HOST_EAGER");
+@@ -312,6 +358,7 @@ void tms57002_device::data_w(u8 data)
+ 				u32 val = (host[0]<<24) | (host[1]<<16) | (host[2]<<8) | host[3];
+ 				const u8 addr = ca;
+ 				hidx = 0;
++				host_trace('I', addr, val);
+ 				write_cmem_direct(addr, val, "PLOAD_INIT");
+ 				ca++;
+ 		}
+@@ -323,7 +370,10 @@ u8 tms57002_device::data_r()
+ {
+ 	u8 res;
+ 	if (!(sti & S_HOST))
++	{
++		replay_rec('R', 0xff);
+ 		return 0xff;
++	}
+ 
+ 	res = host[hidx];
+ 	hidx++;
+@@ -334,6 +384,7 @@ u8 tms57002_device::data_r()
+ 		update_dready();
+ 	}
+ 
++	replay_rec('R', res);
+ 	return res;
+ }
+ 
+@@ -690,6 +741,7 @@ void tms57002_device::sync_w(int state)
+ 	if (sti & IN_PLOAD)
+ 		return;
+ 
++	m_trace_steps = 0;
+ 	if (serial_cycle_model_enabled())
+ 		m_serial_exec_halfcycles = 3;
+ 
+@@ -2297,6 +2349,7 @@ inst:
+ 
+ 
+ 		icount--;
++		m_trace_steps++;
+ 
+ 		if (rptc)
+ 		{
+@@ -2347,6 +2400,7 @@ void tms57002_device::sound_stream_update(sound_stream &stream)
+ 		? std::sin((2.0 * 3.14159265358979323846 * m_input_sine_freq * double(m_sound_updates)) / double(stream.sample_rate())) * m_input_sine_amp
+ 		: 0.0;
+ 	std::array<u32, 4> frame{};
++	u32 trace_rec[8] = {};
+ 	for (u8 i = 0; i < 4; i++)
+ 	{
+ 		const u32 stream_value = m_input_sine
+@@ -2363,6 +2417,7 @@ void tms57002_device::sound_stream_update(sound_stream &stream)
+ 			frame[i] = BIT(m_serial_input_valid, i) ? m_serial_input_latch[i] : stream_value;
+ 			break;
+ 		}
++		trace_rec[i] = frame[i];
+ 	}
+ 	if (serial_cycle_model_enabled())
+ 	{
+@@ -2383,12 +2438,42 @@ void tms57002_device::sound_stream_update(sound_stream &stream)
+ 	stream.put(2, 0, s32(stream_output(2) << 8) /  2147483648.0);
+ 	stream.put(3, 0, s32(stream_output(3) << 8) /  2147483648.0);
+ 
++	for (int i = 0; i < 4; i++)
++		trace_rec[4 + i] = stream_output(i);
++	replay_rec('F', m_stream_sync_enabled ? 1 : 0, trace_rec);
++
+ 	if (m_stream_sync_enabled)
+ 		sync_w(1);
+ }
+ 
+ void tms57002_device::device_start()
+ {
++	if (const char *prefix = std::getenv("KPDEV_HOST_TRACE"))
++	{
++		std::string name;
++		for (const char *t = tag(); *t; ++t)
++			if (*t != ':')
++				name += *t;
++		const std::string path = std::string(prefix) + "." + name + ".csv";
++		m_host_trace = std::fopen(path.c_str(), "w");
++		if (m_host_trace)
++		{
++			std::setvbuf(m_host_trace, nullptr, _IOFBF, 1 << 20);
++			std::fprintf(m_host_trace, "kind,index,value,frame48k,seconds\n");
++		}
++	}
++	if (const char *prefix = std::getenv("KPDEV_REPLAY_TRACE"))
++	{
++		std::string name;
++		for (const char *t = tag(); *t; ++t)
++			if (*t != ':')
++				name += *t;
++		const std::string path = std::string(prefix) + "." + name + ".bin";
++		m_replay_trace = std::fopen(path.c_str(), "wb");
++		if (m_replay_trace)
++			std::setvbuf(m_replay_trace, nullptr, _IOFBF, 1 << 22);
++	}
++
+ 	// Test/fallback controls for the pooled CMEM-read guard.  Both default off.
+ 	m_pf4_force_cmem_unsafe = (std::getenv("KPROP_PF4_FORCE_CMEM_UNSAFE") != nullptr);
+ 	m_pf4_cmem_deopt = (std::getenv("KPROP_PF4_CMEM_DEOPT") != nullptr);
+diff --git a/src/devices/cpu/tms57002/tms57002.h b/src/devices/cpu/tms57002/tms57002.h
+index 7c628009..d4b31aff 100644
+--- a/src/devices/cpu/tms57002/tms57002.h
++++ b/src/devices/cpu/tms57002/tms57002.h
+@@ -12,6 +12,7 @@
+ 
+ #pragma once
+ 
++#include <cstdio>
+ #include <functional>
+ #include <string>
+ 
+@@ -172,7 +173,7 @@ public:
+ 	// idle voice drones forever (drone investigation, 2026-07-02).
+ 	void set_abs_saturate(bool enable) { m_abs_saturate = enable; }
+ 	void set_sync_polarity(int state) { m_sync_polarity_rising = bool(state); }
+-	void mute_w(int state) { m_serial_output_muted = !bool(state); }
++	void mute_w(int state) { replay_rec('M', u8(state)); m_serial_output_muted = !bool(state); }
+ 	void debug_write_dmem0(u8 index, u32 value) { dmem0[index] = value & 0xffffff; }
+ 	void debug_write_dmem1(u8 index, u32 value) { dmem1[index & 0x1f] = value & 0xffffff; }
+ 	void debug_write_cmem(u8 index, u32 value) { cmem[index] = value; }
+@@ -457,6 +458,7 @@ protected:
+ 	virtual void device_start() override ATTR_COLD;
+ 	virtual void device_reset() override ATTR_COLD;
+ 	virtual void device_post_load() override ATTR_COLD;
++	virtual void device_stop() override ATTR_COLD;
+ 	virtual void sound_stream_update(sound_stream &stream) override;
+ 	virtual space_config_vector memory_space_config() const override;
+ 	virtual u32 execute_min_cycles() const noexcept override;
+@@ -2630,6 +2632,22 @@ private:
+ 	// JIT TU bakes via the jit_off_* accessors — stay untouched across emu.h layout variants) ---
+ 	bool m_dynarec_default = false;             // machine-config default (set_dynarec_default; env overrides)
+ 	std::unique_ptr<tms57002::Jit> m_jit;       // per-device Jit, created lazily at the execute_run hook
++
++	// --- host-interface trace (mpc-korg-prophecy oracle). KPDEV_HOST_TRACE=<prefix> writes
++	// <prefix>.<tag>.csv rows: kind,index,value_hex,frame48k,seconds
++	//   L/C = PLOAD/CLOAD strobe edge (index 1 = asserted), S = ST0/ST1 (index 0/1),
++	//   P = program word (index = pc), I = CMEM init (index = ca), U = queued CMEM update (index = sa)
++	std::FILE *m_host_trace = nullptr;
++	void host_trace(char kind, unsigned index, u32 value);
++
++	// --- frame-exact replay trace (mpc-korg-prophecy). KPDEV_REPLAY_TRACE=<prefix> writes
++	// <prefix>.<tag>.bin: 44-byte records {u8 kind, u8 a, u16 0, u32 frame, u32 steps, u32 v[8]}
++	//   L/C = pload_w/cload_w(a), D = data_w(a), R = data_r() -> a, M = mute_w(a),
++	//   F = stream update: v[0..3] raw stream inputs, v[4..7] outputs put; steps = instructions run
++	//   since the previous sync. Host records carry the instruction count since the last sync.
++	std::FILE *m_replay_trace = nullptr;
++	u32 m_trace_steps = 0;
++	void replay_rec(u8 kind, u8 a, const u32 *v = nullptr);
+ 	};
+ 
+ enum {

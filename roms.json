@@ -1,0 +1,29 @@
+{
+  "_comment": "Expected Prophecy firmware sets. Hashes/sizes only - no firmware content. Source: ROM_START blocks in joelanders/mame-profligacy src/mame/korg/korgprophecy.cpp (branch profligacy-public-v1). ic12 = NEC V55PI (MAME 'maincpu': panel, LCD, MIDI). ic22 = Hitachi H8/3003 (MAME 'subcpu': voice control, DSP program/coefficient loads).",
+  "sets": {
+    "korgpro20": {
+      "label": "Prophecy v2.0",
+      "primary": true,
+      "files": [
+        { "name": "ic12_v20.bin", "cpu": "V55PI",   "size": 524288, "crc32": "f33b7932", "sha1": "950baf1f6c54394e780898634b7776e49f43acce" },
+        { "name": "ic22_v20.bin", "cpu": "H8/3003", "size": 524288, "crc32": "0d321a5f", "sha1": "cd4cb221da19dd6f746dc7f3c145b1494993f6d8" }
+      ]
+    },
+    "korgprop": {
+      "label": "Prophecy v1.7 (Profligacy's hardware-validated set)",
+      "primary": false,
+      "files": [
+        { "name": "ic12_v17.bin", "cpu": "V55PI",   "size": 524288, "crc32": "55d9aef8", "sha1": "2dc101c1fad46366cfec43e450844a9e3b613d8c" },
+        { "name": "ic22_v17.bin", "cpu": "H8/3003", "size": 131072, "crc32": "80ac49ad", "sha1": "d394c371279fa7a8c3660bf6c78ea65a0c2a6db0" }
+      ]
+    },
+    "korgpro101": {
+      "label": "Prophecy v1.01",
+      "primary": false,
+      "files": [
+        { "name": "ic2_v101.bin",  "cpu": "V55PI",   "size": 524288, "crc32": "0d4b97f1", "sha1": "76abf1dc49c7669ea0c3a36bf6d27aaab9fed3c1" },
+        { "name": "ic22_v101.bin", "cpu": "H8/3003", "size": 131072, "crc32": "de0ff6b7", "sha1": "79a6e61a6d3aecb9ecebfcddec643ff13c28f62e" }
+      ]
+    }
+  }
+}

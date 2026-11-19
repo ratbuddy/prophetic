@@ -1,0 +1,2952 @@
+{
+ "pages": [
+  {
+   "name": "MAIN",
+   "controls": [
+    {
+     "param": "Volume",
+     "widget": "fader"
+    },
+    {
+     "param": "Out Level",
+     "widget": "fader"
+    },
+    {
+     "param": "Porta SW",
+     "widget": "switch"
+    },
+    {
+     "param": "Transpose",
+     "widget": "knob"
+    },
+    {
+     "param": "Perf Knob 1",
+     "widget": "knob"
+    },
+    {
+     "param": "Perf Knob 2",
+     "widget": "knob"
+    },
+    {
+     "param": "Perf Knob 3",
+     "widget": "knob"
+    },
+    {
+     "param": "Perf Knob 4",
+     "widget": "knob"
+    },
+    {
+     "param": "Perf Knob 5",
+     "widget": "knob"
+    },
+    {
+     "param": "OSC Set",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "Idle Sleep",
+     "widget": "switch"
+    },
+    {
+     "param": "Voices",
+     "widget": "knob"
+    },
+    {
+     "param": "PE1 On",
+     "widget": "switch"
+    },
+    {
+     "param": "PE2 On",
+     "widget": "switch"
+    },
+    {
+     "param": "PE3 On",
+     "widget": "switch"
+    },
+    {
+     "param": "PE4 On",
+     "widget": "switch"
+    }
+   ]
+  },
+  {
+   "name": "OSC",
+   "controls": [
+    {
+     "param": "O1 Octave",
+     "widget": "slider"
+    },
+    {
+     "param": "O1 Semi",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "O1 Fine",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "O1 FreqOfs",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "O2 Octave",
+     "widget": "slider"
+    },
+    {
+     "param": "O2 Semi",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "O2 Fine",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "O2 FreqOfs",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "O1 P.LFO",
+     "widget": "switch"
+    },
+    {
+     "param": "O1 P.LFOInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "O1 P.ModSrc",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "O1 P.ModInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "O2 P.LFO",
+     "widget": "switch"
+    },
+    {
+     "param": "O2 P.LFOInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "O2 P.ModSrc",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "O2 P.ModInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    }
+   ]
+  },
+  {
+   "name": "OSC KT",
+   "controls": [
+    {
+     "param": "O1 SlpLoKey",
+     "widget": "slider"
+    },
+    {
+     "param": "O1 SlpHiKey",
+     "widget": "slider"
+    },
+    {
+     "param": "O1 LoSlope",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "O1 HiSlope",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "O2 SlpLoKey",
+     "widget": "slider"
+    },
+    {
+     "param": "O2 SlpHiKey",
+     "widget": "slider"
+    },
+    {
+     "param": "O2 LoSlope",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "O2 HiSlope",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "O1 P.LFO AT",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "O1 P.LFOCC1",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "O2 P.LFO AT",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "O2 P.LFOCC1",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "Sub Source",
+     "widget": "switch"
+    },
+    {
+     "param": "Sub Semi",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "Sub Fine",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "Sub Wave",
+     "widget": "switch"
+    }
+   ]
+  },
+  {
+   "name": "PITCH EG",
+   "controls": [
+    {
+     "param": "PEG Start",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "PEG Atk Time",
+     "widget": "fader"
+    },
+    {
+     "param": "PEG Atk Level",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "PEG Dcy Time",
+     "widget": "fader"
+    },
+    {
+     "param": "PEG Break Pt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "PEG Slp Time",
+     "widget": "fader"
+    },
+    {
+     "param": "PEG Rel Time",
+     "widget": "fader"
+    },
+    {
+     "param": "PEG Rel Level",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "PEG KT Lvl",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "PEG KT Time",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "PEG Vel Lvl",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "PEG Vel Tim",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "Bend +X",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "Bend -X",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "Bend Step+",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "Bend Step-",
+     "widget": "slider",
+     "overlay": "menu"
+    }
+   ]
+  },
+  {
+   "name": "VOICE",
+   "controls": [
+    {
+     "param": "AT Bend",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "Porta Mode",
+     "widget": "switch"
+    },
+    {
+     "param": "Porta Time",
+     "widget": "fader"
+    },
+    {
+     "param": "Porta VelCtl",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "Key Prio",
+     "widget": "switch"
+    },
+    {
+     "param": "Trigger",
+     "widget": "switch"
+    },
+    {
+     "param": "Trig Vel",
+     "widget": "knob"
+    },
+    {
+     "param": "Trig Above",
+     "widget": "switch"
+    },
+    {
+     "param": "Scale Key",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "Scale Type",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "Rand Pitch",
+     "widget": "knob"
+    },
+    {
+     "param": "F Routing",
+     "widget": "switch"
+    },
+    {
+     "param": "Noise LPF",
+     "widget": "knob"
+    },
+    {
+     "param": "Noise LPF KT",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "OSC1 Model",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "OSC2 Model",
+     "widget": "slider",
+     "overlay": "menu"
+    }
+   ]
+  },
+  {
+   "name": "STD",
+   "controls": [
+    {
+     "param": "O1S Wave",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Std"
+     }
+    },
+    {
+     "param": "O1S Edge",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Std"
+     }
+    },
+    {
+     "param": "O1S WaveLvl",
+     "widget": "fader",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Std"
+     }
+    },
+    {
+     "param": "O1S RampLvl",
+     "widget": "fader",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Std"
+     }
+    },
+    {
+     "param": "O1S WaveForm",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Std"
+     }
+    },
+    {
+     "param": "O1S WF LFO",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Std"
+     }
+    },
+    {
+     "param": "O1S WF LFOInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Std"
+     }
+    },
+    {
+     "param": "O1S WF Int",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Std"
+     }
+    },
+    {
+     "param": "O2S Wave",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Std"
+     }
+    },
+    {
+     "param": "O2S Edge",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Std"
+     }
+    },
+    {
+     "param": "O2S WaveLvl",
+     "widget": "fader",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Std"
+     }
+    },
+    {
+     "param": "O2S RampLvl",
+     "widget": "fader",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Std"
+     }
+    },
+    {
+     "param": "O2S WaveForm",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Std"
+     }
+    },
+    {
+     "param": "O2S WF LFO",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Std"
+     }
+    },
+    {
+     "param": "O2S WF LFOInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Std"
+     }
+    },
+    {
+     "param": "O2S WF Int",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Std"
+     }
+    }
+   ]
+  },
+  {
+   "name": "COMB",
+   "controls": [
+    {
+     "param": "O1C Noise",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Comb"
+     }
+    },
+    {
+     "param": "O1C InWave",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Comb"
+     }
+    },
+    {
+     "param": "O1C InWvLvl",
+     "widget": "fader",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Comb"
+     }
+    },
+    {
+     "param": "O1C InGain",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Comb"
+     }
+    },
+    {
+     "param": "O1C Feedback",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Comb"
+     }
+    },
+    {
+     "param": "O1C FB EG",
+     "widget": "slider",
+     "overlay": "menu",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Comb"
+     }
+    },
+    {
+     "param": "O1C FB EGInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Comb"
+     }
+    },
+    {
+     "param": "O1C LoopLPF",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Comb"
+     }
+    },
+    {
+     "param": "O2C Noise",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Comb"
+     }
+    },
+    {
+     "param": "O2C InWave",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Comb"
+     }
+    },
+    {
+     "param": "O2C InWvLvl",
+     "widget": "fader",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Comb"
+     }
+    },
+    {
+     "param": "O2C InGain",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Comb"
+     }
+    },
+    {
+     "param": "O2C Feedback",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Comb"
+     }
+    },
+    {
+     "param": "O2C FB EG",
+     "widget": "slider",
+     "overlay": "menu",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Comb"
+     }
+    },
+    {
+     "param": "O2C FB EGInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Comb"
+     }
+    },
+    {
+     "param": "O2C LoopLPF",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Comb"
+     }
+    }
+   ]
+  },
+  {
+   "name": "MOD",
+   "controls": [
+    {
+     "param": "O1M Type",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Mod"
+     }
+    },
+    {
+     "param": "O1M Input",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Mod"
+     }
+    },
+    {
+     "param": "O1M RingCar",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Mod"
+     }
+    },
+    {
+     "param": "O1M XCar",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Mod"
+     }
+    },
+    {
+     "param": "O1M XDepth",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Mod"
+     }
+    },
+    {
+     "param": "O1M XDepEGInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Mod"
+     }
+    },
+    {
+     "param": "O1M SyncWave",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Mod"
+     }
+    },
+    {
+     "param": "O1M SyncShape",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Mod"
+     }
+    },
+    {
+     "param": "O2M Type",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Mod"
+     }
+    },
+    {
+     "param": "O2M Input",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Mod"
+     }
+    },
+    {
+     "param": "O2M RingCar",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Mod"
+     }
+    },
+    {
+     "param": "O2M XCar",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Mod"
+     }
+    },
+    {
+     "param": "O2M XDepth",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Mod"
+     }
+    },
+    {
+     "param": "O2M XDepEGInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Mod"
+     }
+    },
+    {
+     "param": "O2M SyncWave",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Mod"
+     }
+    },
+    {
+     "param": "O2M SyncShape",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "Mod"
+     }
+    }
+   ]
+  },
+  {
+   "name": "O1 VPM",
+   "controls": [
+    {
+     "param": "O1V CarWave",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O1V CarLvl",
+     "widget": "fader",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O1V CarEGInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O1V CarInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O1V TblShape",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O1V TblLFOInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O1V TblInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O1V FB Gain",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O1V ModSemi",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O1V ModFine",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O1V ModPchKT",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O1V ModPInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O1V ModWave",
+     "widget": "slider",
+     "overlay": "menu",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O1V ModLvl",
+     "widget": "fader",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O1V ModEGInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O1V ModLInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "VPM"
+     }
+    }
+   ]
+  },
+  {
+   "name": "O2 VPM",
+   "controls": [
+    {
+     "param": "O2V CarWave",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O2V CarLvl",
+     "widget": "fader",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O2V CarEGInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O2V CarInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O2V TblShape",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O2V TblLFOInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O2V TblInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O2V FB Gain",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O2V ModSemi",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O2V ModFine",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O2V ModPchKT",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O2V ModPInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O2V ModWave",
+     "widget": "slider",
+     "overlay": "menu",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O2V ModLvl",
+     "widget": "fader",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O2V ModEGInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "VPM"
+     }
+    },
+    {
+     "param": "O2V ModLInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC2 Model",
+      "choice": "VPM"
+     }
+    }
+   ]
+  },
+  {
+   "name": "BRASS",
+   "controls": [
+    {
+     "param": "O1B Instr",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Brass"
+     }
+    },
+    {
+     "param": "O1B BendCtl",
+     "widget": "slider",
+     "overlay": "menu",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Brass"
+     }
+    },
+    {
+     "param": "O1B BendInt",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Brass"
+     }
+    },
+    {
+     "param": "O1B BendDir",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Brass"
+     }
+    },
+    {
+     "param": "O1B PrsEG",
+     "widget": "slider",
+     "overlay": "menu",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Brass"
+     }
+    },
+    {
+     "param": "O1B PrsEGInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Brass"
+     }
+    },
+    {
+     "param": "O1B PrsLFO",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Brass"
+     }
+    },
+    {
+     "param": "O1B PrsLFOInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Brass"
+     }
+    },
+    {
+     "param": "O1B PrsSrc",
+     "widget": "slider",
+     "overlay": "menu",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Brass"
+     }
+    },
+    {
+     "param": "O1B PrsInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Brass"
+     }
+    },
+    {
+     "param": "O1B Lip",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Brass"
+     }
+    },
+    {
+     "param": "O1B LipInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Brass"
+     }
+    },
+    {
+     "param": "O1B Bell",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Brass"
+     }
+    },
+    {
+     "param": "O1B BellTone",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Brass"
+     }
+    },
+    {
+     "param": "O1B BellReso",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Brass"
+     }
+    },
+    {
+     "param": "O1B Noise",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Brass"
+     }
+    }
+   ]
+  },
+  {
+   "name": "REED",
+   "controls": [
+    {
+     "param": "O1R Instr",
+     "widget": "slider",
+     "overlay": "menu",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Reed"
+     }
+    },
+    {
+     "param": "O1R BendCtl",
+     "widget": "slider",
+     "overlay": "menu",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Reed"
+     }
+    },
+    {
+     "param": "O1R BendInt",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Reed"
+     }
+    },
+    {
+     "param": "O1R BendDir",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Reed"
+     }
+    },
+    {
+     "param": "O1R PrsEG",
+     "widget": "slider",
+     "overlay": "menu",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Reed"
+     }
+    },
+    {
+     "param": "O1R PrsEGInt",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Reed"
+     }
+    },
+    {
+     "param": "O1R PrsEGSrc",
+     "widget": "slider",
+     "overlay": "menu",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Reed"
+     }
+    },
+    {
+     "param": "O1R PrsEGMod",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Reed"
+     }
+    },
+    {
+     "param": "O1R PrsLFO",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Reed"
+     }
+    },
+    {
+     "param": "O1R PrsLFOInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Reed"
+     }
+    },
+    {
+     "param": "O1R PrsSrc",
+     "widget": "slider",
+     "overlay": "menu",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Reed"
+     }
+    },
+    {
+     "param": "O1R PrsInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Reed"
+     }
+    },
+    {
+     "param": "O1R ReedSrc",
+     "widget": "slider",
+     "overlay": "menu",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Reed"
+     }
+    },
+    {
+     "param": "O1R ReedInt",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Reed"
+     }
+    },
+    {
+     "param": "O1R Noise",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Reed"
+     }
+    },
+    {
+     "widget": "empty"
+    }
+   ]
+  },
+  {
+   "name": "PLUCK",
+   "controls": [
+    {
+     "param": "O1P AtkLvl",
+     "widget": "fader",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Pluck"
+     }
+    },
+    {
+     "param": "O1P AtkLvlVel",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Pluck"
+     }
+    },
+    {
+     "param": "O1P AtkNoise",
+     "widget": "fader",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Pluck"
+     }
+    },
+    {
+     "param": "O1P AtkNzVel",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Pluck"
+     }
+    },
+    {
+     "param": "O1P NzFilter",
+     "widget": "switch",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Pluck"
+     }
+    },
+    {
+     "param": "O1P NzCutoff",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Pluck"
+     }
+    },
+    {
+     "param": "O1P NzReso",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Pluck"
+     }
+    },
+    {
+     "param": "O1P AtkEdge",
+     "widget": "fader",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Pluck"
+     }
+    },
+    {
+     "param": "O1P StrPos",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Pluck"
+     }
+    },
+    {
+     "param": "O1P StrPosVel",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Pluck"
+     }
+    },
+    {
+     "param": "O1P StrLoss",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Pluck"
+     }
+    },
+    {
+     "param": "O1P StrLossKT",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Pluck"
+     }
+    },
+    {
+     "param": "O1P Inharm",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Pluck"
+     }
+    },
+    {
+     "param": "O1P InharmKT",
+     "widget": "knob",
+     "polarity": "bipolar",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Pluck"
+     }
+    },
+    {
+     "param": "O1P Decay",
+     "widget": "knob",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Pluck"
+     }
+    },
+    {
+     "param": "O1P Release",
+     "widget": "fader",
+     "visibleWhen": {
+      "param": "OSC1 Model",
+      "choice": "Pluck"
+     }
+    }
+   ]
+  },
+  {
+   "name": "SHAPE",
+   "controls": [
+    {
+     "param": "WS1 InGain",
+     "widget": "knob"
+    },
+    {
+     "param": "WS1 InOffs",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "WS1 Table",
+     "widget": "switch"
+    },
+    {
+     "param": "WS1 Shape",
+     "widget": "knob"
+    },
+    {
+     "param": "WS1 Fdback",
+     "widget": "knob"
+    },
+    {
+     "param": "WS1 XLoop",
+     "widget": "knob"
+    },
+    {
+     "param": "WS1 OutGain",
+     "widget": "knob"
+    },
+    {
+     "param": "WS1 Thru",
+     "widget": "knob"
+    },
+    {
+     "param": "WS2 InGain",
+     "widget": "knob"
+    },
+    {
+     "param": "WS2 InOffs",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "WS2 Table",
+     "widget": "switch"
+    },
+    {
+     "param": "WS2 Shape",
+     "widget": "knob"
+    },
+    {
+     "param": "WS2 Fdback",
+     "widget": "knob"
+    },
+    {
+     "param": "WS2 XLoop",
+     "widget": "knob"
+    },
+    {
+     "param": "WS2 OutGain",
+     "widget": "knob"
+    },
+    {
+     "param": "WS2 Thru",
+     "widget": "knob"
+    }
+   ]
+  },
+  {
+   "name": "DEFINE",
+   "controls": [
+    {
+     "param": "PE Ed Set",
+     "widget": "knob"
+    },
+    {
+     "param": "PE Ed Knob",
+     "widget": "knob"
+    },
+    {
+     "param": "PE Param",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "PE Curve",
+     "widget": "switch"
+    },
+    {
+     "param": "PE Left",
+     "widget": "knob"
+    },
+    {
+     "param": "PE Right",
+     "widget": "knob"
+    },
+    {
+     "param": "Arp Type",
+     "widget": "switch"
+    },
+    {
+     "param": "Arp Oct Alt",
+     "widget": "switch"
+    },
+    {
+     "param": "Pat Ed Step",
+     "widget": "knob"
+    },
+    {
+     "param": "Pat Tone",
+     "widget": "knob"
+    },
+    {
+     "param": "Pat Velocity",
+     "widget": "knob"
+    },
+    {
+     "param": "Pat Gate",
+     "widget": "knob"
+    },
+    {
+     "param": "Pat Offset",
+     "widget": "knob"
+    },
+    {
+     "param": "MIDI In 1",
+     "widget": "knob"
+    },
+    {
+     "param": "MIDI In 2",
+     "widget": "knob"
+    },
+    {
+     "param": "MIDI Log",
+     "widget": "switch"
+    }
+   ]
+  },
+  {
+   "name": "MIXER",
+   "controls": [
+    {
+     "param": "Mx O1>1 Lvl",
+     "widget": "fader"
+    },
+    {
+     "param": "Mx O2>1 Lvl",
+     "widget": "fader"
+    },
+    {
+     "param": "Mx Sub>1 Lvl",
+     "widget": "fader"
+    },
+    {
+     "param": "Mx Nz>1 Lvl",
+     "widget": "fader"
+    },
+    {
+     "param": "Mx O1>2 Lvl",
+     "widget": "fader"
+    },
+    {
+     "param": "Mx O2>2 Lvl",
+     "widget": "fader"
+    },
+    {
+     "param": "Mx Sub>2 Lvl",
+     "widget": "fader"
+    },
+    {
+     "param": "Mx Nz>2 Lvl",
+     "widget": "fader"
+    },
+    {
+     "param": "Mx FB>1 Lvl",
+     "widget": "fader"
+    },
+    {
+     "param": "Mx FB>2 Lvl",
+     "widget": "fader"
+    },
+    {
+     "param": "Engine Load",
+     "widget": "knob"
+    },
+    {
+     "widget": "empty"
+    },
+    {
+     "param": "Mx O1>1 Src",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "Mx O1>1 Int",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "Mx O2>1 Src",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "Mx O2>1 Int",
+     "widget": "knob",
+     "polarity": "bipolar"
+    }
+   ]
+  },
+  {
+   "name": "ARP/GLB",
+   "controls": [
+    {
+     "param": "Arp On",
+     "widget": "switch"
+    },
+    {
+     "param": "Arp Pattern",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "Arp Octave",
+     "widget": "knob"
+    },
+    {
+     "param": "Arp Step",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "Arp Gate",
+     "widget": "knob"
+    },
+    {
+     "param": "Arp Velocity",
+     "widget": "knob"
+    },
+    {
+     "param": "Arp Latch",
+     "widget": "switch"
+    },
+    {
+     "param": "Arp KeySync",
+     "widget": "switch"
+    },
+    {
+     "param": "Arp Sort",
+     "widget": "switch"
+    },
+    {
+     "param": "Arp Zone Lo",
+     "widget": "slider"
+    },
+    {
+     "param": "Arp Zone Hi",
+     "widget": "slider"
+    },
+    {
+     "param": "Arp BPM",
+     "widget": "knob"
+    },
+    {
+     "param": "Master Tune",
+     "widget": "knob"
+    },
+    {
+     "param": "Dly/Rev On",
+     "widget": "switch"
+    },
+    {
+     "param": "Arp Vel Int",
+     "widget": "knob"
+    },
+    {
+     "param": "Arp Gate Int",
+     "widget": "knob"
+    }
+   ]
+  },
+  {
+   "name": "FILTER1",
+   "controls": [
+    {
+     "param": "F1 Type",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "F1 Cutoff",
+     "widget": "knob"
+    },
+    {
+     "param": "F1 Reso",
+     "widget": "knob"
+    },
+    {
+     "param": "F1 InTrim",
+     "widget": "knob"
+    },
+    {
+     "param": "F1 EG",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "F1 EG Int",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "F1 LFO",
+     "widget": "switch"
+    },
+    {
+     "param": "F1 LFO Int",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "F1 ModSrc",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "F1 ModInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "F1 ResoSrc",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "F1 ResoInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "F1 KT LoKey",
+     "widget": "slider"
+    },
+    {
+     "param": "F1 KT HiKey",
+     "widget": "slider"
+    },
+    {
+     "param": "F1 KT LoInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "F1 KT HiInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    }
+   ]
+  },
+  {
+   "name": "FILTER2",
+   "controls": [
+    {
+     "param": "F2 Type",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "F2 Cutoff",
+     "widget": "knob"
+    },
+    {
+     "param": "F2 Reso",
+     "widget": "knob"
+    },
+    {
+     "param": "F2 InTrim",
+     "widget": "knob"
+    },
+    {
+     "param": "F2 EG",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "F2 EG Int",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "F2 LFO",
+     "widget": "switch"
+    },
+    {
+     "param": "F2 LFO Int",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "F2 ModSrc",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "F2 ModInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "F2 ResoSrc",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "F2 ResoInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "F2 KT LoKey",
+     "widget": "slider"
+    },
+    {
+     "param": "F2 KT HiKey",
+     "widget": "slider"
+    },
+    {
+     "param": "F2 KT LoInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "F2 KT HiInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    }
+   ]
+  },
+  {
+   "name": "AMP",
+   "controls": [
+    {
+     "param": "A1 Level",
+     "widget": "fader"
+    },
+    {
+     "param": "A1 EG",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "A1 EG Int",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "A1 ModInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "A2 Level",
+     "widget": "fader"
+    },
+    {
+     "param": "A2 EG",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "A2 EG Int",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "A2 ModInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "A1 KT LoInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "A1 KT HiInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "A1 ModSrc",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "widget": "empty"
+    },
+    {
+     "param": "A2 KT LoInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "A2 KT HiInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "A2 ModSrc",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "widget": "empty"
+    }
+   ]
+  },
+  {
+   "name": "AMP EG",
+   "controls": [
+    {
+     "param": "AEG Start",
+     "widget": "fader"
+    },
+    {
+     "param": "AEG Atk Time",
+     "widget": "fader"
+    },
+    {
+     "param": "AEG Atk Level",
+     "widget": "fader"
+    },
+    {
+     "param": "AEG Dcy Time",
+     "widget": "fader"
+    },
+    {
+     "param": "AEG Break Pt",
+     "widget": "fader"
+    },
+    {
+     "param": "AEG Slp Time",
+     "widget": "fader"
+    },
+    {
+     "param": "AEG Sus Level",
+     "widget": "fader"
+    },
+    {
+     "param": "AEG Rel Time",
+     "widget": "fader"
+    },
+    {
+     "param": "AEG KT Atk",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "AEG KT Dcy",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "AEG KT Slope",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "AEG KT Rel",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "AEG Vel Level",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "AEG Vel Atk",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "AEG Vel Dcy",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "AEG Vel Rel",
+     "widget": "knob",
+     "polarity": "bipolar"
+    }
+   ]
+  },
+  {
+   "name": "EG1",
+   "controls": [
+    {
+     "param": "EG1 Start",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG1 Atk Time",
+     "widget": "fader"
+    },
+    {
+     "param": "EG1 Atk Level",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG1 Dcy Time",
+     "widget": "fader"
+    },
+    {
+     "param": "EG1 Break Pt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG1 Slp Time",
+     "widget": "fader"
+    },
+    {
+     "param": "EG1 Sus Level",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG1 Rel Time",
+     "widget": "fader"
+    },
+    {
+     "param": "EG1 Rel Level",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG1 KT Atk",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG1 KT Dcy",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG1 KT Rel",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG1 Vel Level",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG1 Vel Atk",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG1 Vel Dcy",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG1 Vel Rel",
+     "widget": "knob",
+     "polarity": "bipolar"
+    }
+   ]
+  },
+  {
+   "name": "EG2",
+   "controls": [
+    {
+     "param": "EG2 Start",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG2 Atk Time",
+     "widget": "fader"
+    },
+    {
+     "param": "EG2 Atk Level",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG2 Dcy Time",
+     "widget": "fader"
+    },
+    {
+     "param": "EG2 Break Pt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG2 Slp Time",
+     "widget": "fader"
+    },
+    {
+     "param": "EG2 Sus Level",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG2 Rel Time",
+     "widget": "fader"
+    },
+    {
+     "param": "EG2 Rel Level",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG2 KT Atk",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG2 KT Dcy",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG2 KT Rel",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG2 Vel Level",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG2 Vel Atk",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG2 Vel Dcy",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG2 Vel Rel",
+     "widget": "knob",
+     "polarity": "bipolar"
+    }
+   ]
+  },
+  {
+   "name": "EG3",
+   "controls": [
+    {
+     "param": "EG3 Start",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG3 Atk Time",
+     "widget": "fader"
+    },
+    {
+     "param": "EG3 Atk Level",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG3 Dcy Time",
+     "widget": "fader"
+    },
+    {
+     "param": "EG3 Break Pt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG3 Slp Time",
+     "widget": "fader"
+    },
+    {
+     "param": "EG3 Sus Level",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG3 Rel Time",
+     "widget": "fader"
+    },
+    {
+     "param": "EG3 Rel Level",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG3 KT Atk",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG3 KT Dcy",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG3 KT Rel",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG3 Vel Level",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG3 Vel Atk",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG3 Vel Dcy",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG3 Vel Rel",
+     "widget": "knob",
+     "polarity": "bipolar"
+    }
+   ]
+  },
+  {
+   "name": "EG4",
+   "controls": [
+    {
+     "param": "EG4 Start",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG4 Atk Time",
+     "widget": "fader"
+    },
+    {
+     "param": "EG4 Atk Level",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG4 Dcy Time",
+     "widget": "fader"
+    },
+    {
+     "param": "EG4 Break Pt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG4 Slp Time",
+     "widget": "fader"
+    },
+    {
+     "param": "EG4 Sus Level",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG4 Rel Time",
+     "widget": "fader"
+    },
+    {
+     "param": "EG4 Rel Level",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG4 KT Atk",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG4 KT Dcy",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG4 KT Rel",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG4 Vel Level",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG4 Vel Atk",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG4 Vel Dcy",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "EG4 Vel Rel",
+     "widget": "knob",
+     "polarity": "bipolar"
+    }
+   ]
+  },
+  {
+   "name": "LFO1",
+   "controls": [
+    {
+     "param": "LFO1 Wave",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "LFO1 Freq",
+     "widget": "knob"
+    },
+    {
+     "param": "LFO1 Mode",
+     "widget": "switch"
+    },
+    {
+     "param": "LFO1 KeySync",
+     "widget": "switch"
+    },
+    {
+     "param": "LFO1 FrqKT",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "LFO1 FrqCC1",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "LFO1 FrqSrc",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "LFO1 FrqInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "LFO1 Offset",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "LFO1 AmpSrc",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "LFO1 AmpInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "widget": "empty"
+    },
+    {
+     "param": "LFO1 Delay",
+     "widget": "knob"
+    },
+    {
+     "param": "LFO1 FadeIn",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "widget": "empty"
+    },
+    {
+     "widget": "empty"
+    }
+   ]
+  },
+  {
+   "name": "LFO2",
+   "controls": [
+    {
+     "param": "LFO2 Wave",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "LFO2 Freq",
+     "widget": "knob"
+    },
+    {
+     "param": "LFO2 Mode",
+     "widget": "switch"
+    },
+    {
+     "param": "LFO2 KeySync",
+     "widget": "switch"
+    },
+    {
+     "param": "LFO2 FrqKT",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "LFO2 FrqCC1",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "LFO2 FrqSrc",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "LFO2 FrqInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "LFO2 Offset",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "LFO2 AmpSrc",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "LFO2 AmpInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "widget": "empty"
+    },
+    {
+     "param": "LFO2 Delay",
+     "widget": "knob"
+    },
+    {
+     "param": "LFO2 FadeIn",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "widget": "empty"
+    },
+    {
+     "widget": "empty"
+    }
+   ]
+  },
+  {
+   "name": "LFO3",
+   "controls": [
+    {
+     "param": "LFO3 Wave",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "LFO3 Freq",
+     "widget": "knob"
+    },
+    {
+     "param": "LFO3 Mode",
+     "widget": "switch"
+    },
+    {
+     "param": "LFO3 KeySync",
+     "widget": "switch"
+    },
+    {
+     "param": "LFO3 FrqKT",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "LFO3 FrqCC1",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "LFO3 FrqSrc",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "LFO3 FrqInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "LFO3 Offset",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "LFO3 AmpSrc",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "LFO3 AmpInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "widget": "empty"
+    },
+    {
+     "param": "LFO3 Delay",
+     "widget": "knob"
+    },
+    {
+     "param": "LFO3 FadeIn",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "widget": "empty"
+    },
+    {
+     "widget": "empty"
+    }
+   ]
+  },
+  {
+   "name": "LFO4",
+   "controls": [
+    {
+     "param": "LFO4 Wave",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "LFO4 Freq",
+     "widget": "knob"
+    },
+    {
+     "param": "LFO4 Mode",
+     "widget": "switch"
+    },
+    {
+     "param": "LFO4 KeySync",
+     "widget": "switch"
+    },
+    {
+     "param": "LFO4 FrqKT",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "LFO4 FrqCC1",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "LFO4 FrqSrc",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "LFO4 FrqInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "LFO4 Offset",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "LFO4 AmpSrc",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "LFO4 AmpInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "widget": "empty"
+    },
+    {
+     "param": "LFO4 Delay",
+     "widget": "knob"
+    },
+    {
+     "param": "LFO4 FadeIn",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "widget": "empty"
+    },
+    {
+     "widget": "empty"
+    }
+   ]
+  },
+  {
+   "name": "DIST/WAH",
+   "controls": [
+    {
+     "param": "Dist Gain",
+     "widget": "knob"
+    },
+    {
+     "param": "Dist Tone",
+     "widget": "knob"
+    },
+    {
+     "param": "Dist Level",
+     "widget": "fader"
+    },
+    {
+     "param": "Dist Bal",
+     "widget": "fader"
+    },
+    {
+     "param": "Wah Reso",
+     "widget": "knob"
+    },
+    {
+     "param": "Wah LoFreq",
+     "widget": "knob"
+    },
+    {
+     "param": "Wah HiFreq",
+     "widget": "knob"
+    },
+    {
+     "param": "Wah SwpDir",
+     "widget": "switch"
+    },
+    {
+     "param": "Wah SwpSrc",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "Wah Level",
+     "widget": "fader"
+    },
+    {
+     "param": "Wah Bal",
+     "widget": "fader"
+    },
+    {
+     "param": "Dist BalSrc",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "Dist BalInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "Wah BalSrc",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "Wah BalInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "widget": "empty"
+    }
+   ]
+  },
+  {
+   "name": "CHO/DLY",
+   "controls": [
+    {
+     "param": "DlyRev Sel",
+     "widget": "switch"
+    },
+    {
+     "param": "Cho Time",
+     "widget": "fader"
+    },
+    {
+     "param": "Cho Fdback",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "Cho Depth",
+     "widget": "knob"
+    },
+    {
+     "param": "Cho LFO",
+     "widget": "switch"
+    },
+    {
+     "param": "Cho DepSrc",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "Cho DepInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "Cho Bal",
+     "widget": "fader"
+    },
+    {
+     "param": "Dly Time",
+     "widget": "fader"
+    },
+    {
+     "param": "Dly Fdback",
+     "widget": "knob"
+    },
+    {
+     "param": "Dly HiDamp",
+     "widget": "knob"
+    },
+    {
+     "param": "Dly Bal",
+     "widget": "fader"
+    },
+    {
+     "param": "Cho BalSrc",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "Cho BalInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "Dly BalSrc",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "Dly BalInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    }
+   ]
+  },
+  {
+   "name": "REV/EQ",
+   "controls": [
+    {
+     "param": "Rev PreDly",
+     "widget": "knob"
+    },
+    {
+     "param": "Rev Time",
+     "widget": "fader"
+    },
+    {
+     "param": "Rev HiDamp",
+     "widget": "knob"
+    },
+    {
+     "param": "Rev Bal",
+     "widget": "fader"
+    },
+    {
+     "param": "EQ Lo Freq",
+     "widget": "knob"
+    },
+    {
+     "param": "EQ Lo Q",
+     "widget": "knob"
+    },
+    {
+     "param": "EQ Lo Gain",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "Rev BalSrc",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "EQ Hi Freq",
+     "widget": "knob"
+    },
+    {
+     "param": "EQ Hi Q",
+     "widget": "knob"
+    },
+    {
+     "param": "EQ Hi Gain",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "Rev BalInt",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "Pan Src",
+     "widget": "slider",
+     "overlay": "menu"
+    },
+    {
+     "param": "Pan Int",
+     "widget": "knob",
+     "polarity": "bipolar"
+    },
+    {
+     "param": "Out Level",
+     "widget": "fader"
+    },
+    {
+     "param": "Pan",
+     "widget": "knob"
+    }
+   ]
+  }
+ ]
+}

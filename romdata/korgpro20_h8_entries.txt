@@ -1,0 +1,174 @@
+# H8 code addresses for tools/h8dec.py and tools/h8xlat.py, expanded by tools/h8_addrlist.py:
+# one address per line (hex), or "table <addr> <count> <stride>": <count> 32-bit pointers,
+# <stride> bytes apart, read from your ic22 at <addr> (CPU byte order). Addresses, counts
+# and strides only, no ROM content.
+table 0000f4 2 10
+table 00e7ae 3 4
+table 00e7ba 2 4
+table 00e7ca 26 4
+table 00e84a 4 4
+table 00e85e 3 4
+table 00e86e 4 4
+table 00e88a 4 4
+table 00e8aa 6 4
+table 00e8ca 13 4
+table 00e90a 5 4
+table 00e9aa 17 4
+table 00ea0a 2 8
+table 00ea0e 2 20
+table 00ea16 3 4
+table 00ea26 3 4
+table 00ea6a 6 4
+table 00f0f4 2 30
+table 00f8e2 2 30
+table 00feaa 2 10
+table 0100f8 2 30
+table 010128 2 18
+table 010158 2 18
+table 010176 2 18
+table 010182 2 12
+table 0101ee 2 18
+table 010236 2 12
+table 010284 2 12
+table 01029c 3 18
+table 0102d8 2 12
+table 0102f0 3 6
+table 01036e 2 6
+table 0103f2 4 6
+table 010410 2 30
+table 010464 2 24
+table 010488 2 6
+table 0104a0 2 24
+table 0104d6 3 6
+table 011370 7 4
+table 012c88 4 4
+table 012c9c 3 4
+table 013102 3 4
+table 01310a 3 4
+table 01365c 2 20
+table 013660 2 4
+table 013660 2 20
+table 013664 2 28
+table 013668 2 4
+table 013674 2 16
+table 013678 2 4
+table 013684 2 4
+table 013c1e 5 4
+table 013de4 5 4
+table 013ed0 5 4
+table 01936e 4 4
+table 01937e 4 4
+table 01938e 2 12
+table 019392 2 12
+table 019396 2 12
+table 0193a6 2 4
+table 0193ae 2 4
+table 0193b6 5 4
+table 0193ca 2 8
+table 0193d6 4 4
+table 01ac9c 7 4
+table 01acbc 5 4
+table 01acd4 2 4
+table 01ae22 7 4
+table 01ae42 5 4
+table 01ae5a 2 4
+010000
+0106ae
+010800
+01138c
+012528
+01274e
+012790
+01279a
+0127b8
+0127d6
+0127ea
+012802
+01285c
+0128ee
+012930
+01293c
+01293c
+012948
+012948
+012954
+012954
+012960
+012960
+01296c
+01296c
+012978
+012978
+012cb0
+012eea
+013122
+01335a
+013ec2
+013eec
+013fc8
+01517a
+015188
+015202
+015210
+01525c
+01526a
+0152b4
+0152c2
+015334
+015342
+01542e
+01543c
+015486
+015494
+0154ca
+0154d8
+01556c
+01557a
+0155c4
+0155d2
+01572e
+01573c
+015770
+01577e
+015872
+015880
+015974
+015a2a
+015ae0
+015aee
+015b22
+015b30
+015c7e
+015c8c
+015cc2
+015cd0
+015d0a
+015d18
+015d72
+015d80
+015daa
+015db8
+015de0
+015dee
+015ecc
+015eda
+015f7c
+015f8a
+017f32
+018088
+0180a6
+0180c4
+018154
+01818c
+0181d0
+018222
+018240
+0183d2
+0183e4
+0183fe
+0184f0
+019214
+019a16
+01ad0e
+01ae14
+01aefa

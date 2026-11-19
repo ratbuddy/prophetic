@@ -1,0 +1,11 @@
+{
+  "_comment": "Offsets into the H8 ROM (ic22, CPU byte order) for firmware set korgpro20 (v2.0). Addresses and counts only - no firmware content. Located from the H8 send/program-change routines (docs/H8.md) and verified against oracle captures (tools/rom_dsp_blocks.py).",
+  "set": "korgpro20",
+  "ic22": "ic22_v20.bin",
+  "dsp": {
+    "osc_table":  { "addr": "0x01a28a", "count": 12, "dsp": 1, "role": "oscillator set" },
+    "fx_table":   { "addr": "0x01a2ba", "count": 2,  "dsp": 3, "role": "effects" },
+    "filter":     { "addr": "0x0083bd", "dsp": 2, "role": "filter" },
+    "clear":      { "addr": "0x006ea2", "dsp": [1, 3], "role": "memory clear" }
+  }
+}

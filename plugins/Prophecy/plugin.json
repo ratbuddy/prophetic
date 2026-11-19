@@ -1,0 +1,15 @@
+{
+  "name": "Prophetic",
+  "manufacturer": "KP Sim",
+  "version": "0.1.0",
+  "format": "vst2",
+  "kind": "instrument",
+  "uid": "KpPr",
+  "numInputs": 0,
+  "numOutputs": 2,
+  "category": "Synth",
+  "file32": "VST/prophetic-arm32.so",
+  "file64": "VST/prophetic-arm64.so",
+  "description": "Native port of the Korg Prophecy's synthesis (bit-exact DSP board, translated H8 control layer), built from your own Prophecy v2.0 ROMs. Not affiliated with Korg.",
+  "license": "GPL-3.0-or-later"
+}
