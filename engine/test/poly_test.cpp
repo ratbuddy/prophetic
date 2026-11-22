@@ -202,7 +202,54 @@ int main(int argc, char **argv)
 		            tag.c_str(), before, jump, step, rest);
 		check(before > 1e-3 && jump <= step && rest == 0.0, tag + ": a dropped voice fades out over 20 ms (no click), then is silent; the kept voice plays on");
 	}
-	// 4. cost: N voices each holding a note, render time per second of audio
+	// 4. idle sleep: a silent engine stays asleep through a mod wheel sweep, a pitch bend and a Perf
+	// Knob move (with several voices, every voice gets them), and its next note sounds exactly as
+	// if only the final values had been sent together with that note
+	for (int prog : { 21, 0 })
+	{
+		const std::string tag = "program " + std::to_string(prog);
+		kp::Synth a, b;
+		float l[kBlock], r[kBlock];
+		for (kp::Synth *s : { &a, &b })
+		{
+			s->load(argv[1], err);
+			s->set_idle_sleep(true);
+			s->program(prog);
+			for (int k = 0; k < 300; k++) s->render(l, r, kBlock);   // program done, then 1 s of silence
+		}
+		const bool slept = a.sleeping() && b.sleeping();
+		kp::pe::Edit e[kp::pe::kSets];
+		for (int v = 0; v <= 127; v++) a.midi_cc(1, v);
+		a.pitch_bend(12000);
+		a.perf_knob(0, 100, e);
+		bool stayed = true, silent = true;
+		for (int k = 0; k < 50; k++)
+		{
+			a.render(l, r, kBlock);
+			b.render(l, r, kBlock);
+			stayed = stayed && a.sleeping();
+			for (int i = 0; i < kBlock; i++) silent = silent && l[i] == 0.0f;
+		}
+		check(slept && stayed && silent, tag + ": a sleeping engine stays asleep through a mod wheel sweep, a bend and a Perf Knob move");
+		a.note_on(60, 100);
+		b.midi_cc(1, 127);   // the final values, sent with the note
+		b.pitch_bend(12000);
+		b.perf_knob(0, 100, e);
+		b.note_on(60, 100);
+		std::vector<float> oa, ob;
+		for (int k = 0; k < 100; k++)
+		{
+			a.render(l, r, kBlock);
+			oa.insert(oa.end(), l, l + kBlock);
+			b.render(l, r, kBlock);
+			ob.insert(ob.end(), l, l + kBlock);
+		}
+		double peak = 0;
+		for (float v : oa) peak = std::max(peak, double(std::fabs(v)));
+		check(peak > 1e-3 && oa == ob && a.controller_value(0x11) == b.controller_value(0x11),
+		      tag + ": its next note = the final values sent with the note, sample for sample (nothing lost)");
+	}
+	// 5. cost: N voices each holding a note, render time per second of audio
 	{
 		float l[kBlock], r[kBlock];
 		for (int n : { 1, 2, 4, 8 })

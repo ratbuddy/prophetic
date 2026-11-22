@@ -479,17 +479,77 @@ void Synth::push_locked(const std::uint8_t *p, std::size_t n)
 	}
 }
 
+void Synth::wake_locked()
+{
+	if (!sleeping_.load(std::memory_order_relaxed))
+		return;
+	for (int k = 0; k < held_count_; k++)   // what was held while asleep goes first, in its order
+	{
+		const int s = held_order_[size_t(k)];
+		push_locked(held_[size_t(s)].data(), held_len_[size_t(s)]);
+		held_len_[size_t(s)] = 0;
+	}
+	held_count_ = 0;
+	sleeping_.store(false, std::memory_order_relaxed);   // continue where it stopped
+	silent_frames_ = 0;
+}
+
+void Synth::post_locked(const std::uint8_t *p, std::size_t n)
+{
+	wake_locked();
+	push_locked(p, n);
+}
+
+void Synth::post_value_locked(int slot, const std::uint8_t *p, std::size_t n)
+{
+	if (!(idle_sleep_ && sleeping_.load(std::memory_order_relaxed)))
+	{
+		push_locked(p, n);
+		return;
+	}
+	if (held_len_[size_t(slot)] == 0)
+		held_order_[size_t(held_count_++)] = std::uint16_t(slot);
+	std::memcpy(held_[size_t(slot)].data(), p, n);   // the latest value of this slot
+	held_len_[size_t(slot)] = std::uint8_t(n);
+}
+
+void Synth::set_idle_sleep(bool on)
+{
+	if (on == idle_sleep_)
+		return;
+	std::lock_guard<std::mutex> lk(mu_);
+	if (!on)
+		wake_locked();
+	idle_sleep_ = on;
+}
+
 void Synth::send(std::initializer_list<std::uint8_t> bytes)
 {
 	std::lock_guard<std::mutex> lk(mu_);
-	push_locked(bytes.begin(), bytes.size());
+	const std::uint8_t *m = bytes.begin();
+	int slot = -1;
+	switch (m[0])
+	{
+	case 0x80: slot = kSlotGlobal; break;       // Master Tune
+	case 0x90: slot = kSlotGlobal + 1; break;   // Key Transpose
+	case 0xa0: slot = kSlotGlobal + 2; break;   // Transpose Position
+	case 0xc0: slot = kSlotGlobal + 3; break;   // Delay/Reverb
+	case 0xb0:                                  // User Scale 1 / 2 key
+		if (bytes.size() == 4)
+			slot = m[1] == 0 ? (m[2] < 12 ? kSlotScale1 + m[2] : -1) : kSlotScale2 + (m[2] & 0x7f);
+		break;
+	}
+	if (slot >= 0)
+		post_value_locked(slot, m, bytes.size());
+	else
+		post_locked(m, bytes.size());
 }
 
 void Synth::note_on(int note, int velocity)
 {
 	std::lock_guard<std::mutex> lk(mu_);
 	const std::uint8_t m[3] = { 0x10, std::uint8_t(note & 0x7f), std::uint8_t(velocity < 1 ? 1 : (velocity > 127 ? 127 : velocity)) };
-	push_locked(m, 3);
+	post_locked(m, 3);
 	if (!key_down_[note & 0x7f]) { key_down_[note & 0x7f] = true; keys_down_++; }
 }
 
@@ -497,7 +557,7 @@ void Synth::note_off(int note, int velocity)
 {
 	std::lock_guard<std::mutex> lk(mu_);
 	const std::uint8_t m[3] = { 0x00, std::uint8_t(note & 0x7f), std::uint8_t(velocity < 0 ? 0 : (velocity > 127 ? 127 : velocity)) };
-	push_locked(m, 3);
+	post_locked(m, 3);
 	if (key_down_[note & 0x7f]) { key_down_[note & 0x7f] = false; keys_down_--; }
 }
 
@@ -515,7 +575,7 @@ void Synth::controller(int id, int value16)
 void Synth::controller_locked(int id, int value16)
 {
 	const std::uint8_t m[4] = { 0x30, std::uint8_t(id), std::uint8_t(value16 >> 8), std::uint8_t(value16) };
-	push_locked(m, 4);
+	post_value_locked(id & 0x7f, m, 4);
 	ctlv_[id & 0x7f] = std::uint16_t(value16);
 }
 
@@ -532,13 +592,13 @@ Synth::Nrpn Synth::midi_cc(int cc, int value, KnobMoves *moved)
 			{
 				std::uint8_t m[4];
 				put_ctl(m, r[0], (r[1] << 8) | r[2]);
-				push_locked(m, 4);
+				post_value_locked(r[0] & 0x7f, m, 4);
 				ctlv_[r[0]] = std::uint16_t((r[1] << 8) | r[2]);
 			}
 		else
 		{
 			const std::uint8_t m = cc == 120 ? 0x20 : 0x60;   // All Sound Off / All Notes Off
-			push_locked(&m, 1);
+			post_value_locked(kSlotGlobal + (cc == 120 ? 4 : 5), &m, 1);
 			key_down_.fill(false);
 			keys_down_ = 0;
 		}
@@ -802,7 +862,7 @@ void Synth::program(int index)
 		std::memcpy(assign_.data(), &p.dump[435], assign_.size());
 		cur_dump_ = p.dump;
 	}
-	push_locked(b, nb);
+	post_locked(b, nb);
 	edit_ = p.record;
 	for (const auto &e : p.edits)
 		apply_edit(edit_, e.data());
@@ -861,7 +921,7 @@ bool Synth::edit_locked(int index, int raw)
 		return false;
 	prm::put(edit_, d, raw);
 	const std::uint8_t m[4] = { 0x40, std::uint8_t(d.id >> 8), std::uint8_t(d.id), std::uint8_t(raw) };
-	push_locked(m, 4);
+	post_value_locked(kSlotEdit + index, m, 4);
 	return true;
 }
 
@@ -879,7 +939,7 @@ void Synth::set_osc_locked(int osc_set)
 	}
 	// What the V55 sends: the whole record as a type-5 message, then its current controllers.
 	const std::uint8_t hdr[3] = { 0x50, std::uint8_t(prm::kRecordSize >> 8), std::uint8_t(prm::kRecordSize) };
-	push_locked(hdr, 3);
+	post_locked(hdr, 3);
 	push_locked(edit_.data(), edit_.size());
 	std::uint8_t c[64];
 	std::size_t n = wheel_block(assign_.data(), c);   // the program's wheels at their panel positions
@@ -953,7 +1013,9 @@ void Synth::render(float *left, float *right, int n)
 		bool wake;
 		{
 			std::lock_guard<std::mutex> lk(mu_);
-			wake = tail_ != head_;
+			wake = tail_ != head_;   // (post_locked has woken it already; held messages wait)
+			if (wake)
+				wake_locked();
 		}
 		if (!wake)
 		{
@@ -961,8 +1023,6 @@ void Synth::render(float *left, float *right, int n)
 			load_ = 0;
 			return;
 		}
-		sleeping_ = false;   // a message: continue where it stopped
-		silent_frames_ = 0;
 	}
 	float peak = 0;
 	for (int i = 0; i < n; i++)
@@ -1005,7 +1065,7 @@ void Synth::render(float *left, float *right, int n)
 		else
 			silent_frames_ = 0;
 		if (silent_frames_ >= kSleepFrames)
-			sleeping_ = true;
+			sleeping_.store(true, std::memory_order_relaxed);
 	}
 	const double secs = std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count();
 	load_ = 100.0 * secs / (double(n) / kSampleRate);

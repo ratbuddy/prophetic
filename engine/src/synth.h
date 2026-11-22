@@ -15,6 +15,7 @@
 #include "prophecy_board.h"
 
 #include <array>
+#include <atomic>
 #include <cstdint>
 #include <initializer_list>
 #include <memory>
@@ -141,10 +142,15 @@ public:
 	// below -120 dBFS with no key held and nothing waiting for the H8, the whole engine (H8 and the
 	// three DSPs) stops and render() outputs silence; the next message wakes it and it continues
 	// from where it stopped, as if the silent stretch had not happened (free-running LFOs resume
-	// where they were).
+	// where they were). While it sleeps, messages that only set a value (controllers, parameter
+	// edits, the global settings, All Notes / Sound Off) are held, the latest one per controller /
+	// parameter / setting, and go to the H8 first, in the order they came, when a message that
+	// needs the engine awake arrives (a note, a program, OSC Set): a knob, wheel or parameter
+	// move no longer wakes a silent voice, and nothing is lost (the H8 gets the same values as
+	// if they had been sent with that message).
 	static constexpr int kSleepFrames = kSampleRate;   // 1 s
-	void set_idle_sleep(bool on) { idle_sleep_ = on; }
-	bool sleeping() const { return sleeping_; }
+	void set_idle_sleep(bool on);
+	bool sleeping() const { return sleeping_.load(std::memory_order_relaxed); }
 	// The caller's output is muted (the plugin's Stop fade): idle sleep counts the engine's output as
 	// silence, so a sound the Prophecy itself keeps ringing (All Sound Off does not end every
 	// program's decay) no longer keeps the engine awake. Audio thread.
@@ -196,8 +202,13 @@ private:
 	void run_frames(std::uint64_t until);
 	void run_until_sent();
 
-	void send(std::initializer_list<std::uint8_t> bytes);
-	void push_locked(const std::uint8_t *p, std::size_t n);
+	void send(std::initializer_list<std::uint8_t> bytes);   // a global setting (held while asleep)
+	void push_locked(const std::uint8_t *p, std::size_t n);   // into the ring as it is
+	// Messages: post_locked needs the engine awake (wakes it, held messages go first);
+	// post_value_locked sets one value (slot below), held while the engine sleeps.
+	void post_locked(const std::uint8_t *p, std::size_t n);
+	void post_value_locked(int slot, const std::uint8_t *p, std::size_t n);
+	void wake_locked();
 	bool edit_locked(int index, int raw);   // edit buffer + `40` message; false if nothing to do
 	void controller_locked(int id, int value16);
 	void use_program_perf_locked(const Program &p);
@@ -236,7 +247,15 @@ private:
 	std::uint64_t frame_ = 0;
 	int byte_gap_ = 0;
 	double load_ = 0;
-	bool idle_sleep_ = false, sleeping_ = false, muted_ = false;
+	bool idle_sleep_ = false, muted_ = false;
+	std::atomic<bool> sleeping_{ false };
+	// held while asleep: one slot per controller id, parameter, global setting, user-scale key
+	static constexpr int kSlotEdit = 128, kSlotGlobal = kSlotEdit + prm::kCount;   // 80 90 a0 c0 20 60
+	static constexpr int kSlotScale1 = kSlotGlobal + 6, kSlotScale2 = kSlotScale1 + 12, kSlots = kSlotScale2 + 128;
+	std::array<std::array<std::uint8_t, 4>, kSlots> held_{};
+	std::array<std::uint8_t, kSlots> held_len_{};       // 0: nothing held
+	std::array<std::uint16_t, kSlots> held_order_{};    // slots in the order they were first held
+	int held_count_ = 0;
 	bool booted_ = false;
 	int silent_frames_ = 0;
 	std::array<bool, 128> key_down_{};   // note on without its note off yet (keeps the engine awake)
