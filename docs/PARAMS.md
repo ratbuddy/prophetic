@@ -81,7 +81,7 @@ The five PE knobs and four PE sets (`engine/src/control/perf.h`), reimplemented 
 | 528-529 | OSC1 Model / OSC2 Model | display only, follow OSC Set; drive the model pages' visibility |
 | 530 | Transpose | global (not changed by presets) |
 | 531-542 | Arp On, Arp Pattern (Up..Random, Pat1-5), Arp Octave, Arp Latch, Arp KeySync, Arp Step, Arp Gate (1-100 %, 101 Step), Arp Velocity (0 Key, 1-127, 128 Step), Arp Sort, Arp Zone Lo, Arp Zone Hi, Arp BPM | global; native arpeggiator (`engine/src/arp.h`); the 10 patterns' data from your ic12 (korgpro20 0x3E542); selecting a pattern loads its Step / Sort / zone / Velocity / Gate; checked against the oracle (`reference/wsl/arp_expect.py` -> `engine/test/arp_test`: 26 scenarios equal); also NRPN 00 01..00 05 |
-| 543-547 | Perf Knob 1-5 | set by each program; turning one edits its PE sets' parameters (shown in those parameters); CC19..23 |
+| 543-547 | Perf Knob 1-5 | on a program change they show the position that agrees best with the program's own values (`Synth::program_knob_match`; the stored position need not, as the V55 applies a knob's sets only when it moves), and the engine takes it as its knob position with nothing applied, so the sound stays the program's; turning one edits its PE sets' parameters (shown in those parameters); CC19..23 |
 | 548-551 | PE1 On - PE4 On | set by each program; NRPN 00 06..00 09 |
 | 552 | Master Tune | global, 430.0-450.0 Hz: `80 vv` with vv = (Hz - 440) * 10 |
 | 553 | Dly/Rev On | global Delay/Reverb switch (Prophecy Global "DelayReverb ON/BYPASS"): `c0 01` / `c0 00` |

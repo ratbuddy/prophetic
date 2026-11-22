@@ -432,6 +432,31 @@ int main(int argc, char **argv)
 		check(three > 1.4 * one, "Voices 3: a three-note chord sounds as three notes");
 	}
 	{
+		// The Perf Knobs show where they agree with the program's own values (program 60: knob 1 is
+		// stored at 0, where a first move would change its parameters; it agrees at 2-3): turning
+		// it away and back to the shown position gives the program's values back
+		Instance g(entry);
+		g.disp(effSetProgram, 0, 60);
+		g.run(0.8);
+		const int k1 = g.param("Perf Knob 1"), first = g.param("Hold"), last = g.param("Porta SW");
+		auto snapshot = [&] {
+			std::vector<std::string> v;
+			for (int i = first; i < last; i++) v.push_back(g.display(i));
+			return v;
+		};
+		const std::string shown = g.display(k1);
+		const int x = std::atoi(shown.c_str());
+		const auto loaded = snapshot();
+		g.e->setParameter(g.e, k1, float(x + 40) / 127.0f);
+		g.run(0.3);
+		const auto away = snapshot();
+		g.e->setParameter(g.e, k1, float(x) / 127.0f);
+		g.run(0.3);
+		const auto back = snapshot();
+		std::printf("     program 60: Perf Knob 1 shows %s\n", shown.c_str());
+		check(x != 0 && away != loaded && back == loaded, "Perf Knob 1 shows the position that agrees with the program (back there, its values return)");
+	}
+	{
 		// Voices raised while a note plays (Perf Knob 1 moved first): the note plays on
 		// undisturbed: the output equals a run without the change, sample for sample
 		Instance a(entry), b(entry);

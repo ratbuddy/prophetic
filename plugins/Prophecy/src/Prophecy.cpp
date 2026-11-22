@@ -387,6 +387,9 @@ public:
 		for (int p = 0; p < synth_.program_count(); p++)
 		{
 			preset_perf_[p] = synth_.program_perf(p);
+			for (int k = 0; k < kp::pe::kKnobs; k++)   // the knobs show where they agree with the program
+				if (const int x = synth_.program_knob_match(p, k); x >= 0)
+					preset_perf_[p].knob[k] = std::uint8_t(x);
 			std::uint8_t dump[kp::pe::kDumpSize];
 			if (synth_.program_dump(p, dump))
 				std::memcpy(preset_assign_[p].data(), &dump[435], 9);
@@ -704,12 +707,17 @@ private:
 		porta_ = synth_.program_porta(p);
 		if (!keep_values)
 			set(kPorta, porta_ ? 1.0f : 0.0f);
-		// Performance Editor: the engine now has the program's knob positions and set switches; a
-		// restored project then moves them to its saved values without applying them (sync_edits)
+		// Performance Editor: the engine now has the program's set switches and stored knob positions.
+		// The knobs show, and the engine takes as its knob positions without applying anything (the
+		// sound stays the program's), the positions that agree best with the program's own values
+		// (Synth::program_knob_match): the stored ones need not (the V55 applies a knob's sets only
+		// when it moves), so a first move from them would jump. A restored project then moves them
+		// to its saved values, again without applying them (sync_edits).
 		const kp::pe::Program &pe = preset_perf_[p];
 		for (int k = 0; k < kp::pe::kKnobs; k++)
 		{
 			knob_pos_[k] = pe.valid ? pe.knob[k] : 0;
+			synth_.set_perf_position(k, knob_pos_[k]);
 			if (!keep_values)
 				set(kKnob1 + k, float(knob_pos_[k]));
 		}

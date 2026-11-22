@@ -89,6 +89,7 @@ public:
 	bool program_dump(int index, std::uint8_t *out) const { return v_[0]->program_dump(index, out); }
 	bool program_porta(int p) const { return v_[0]->program_porta(p); }
 	pe::Program program_perf(int p) const { return v_[0]->program_perf(p); }
+	int program_knob_match(int p, int knob) const { return v_[0]->program_knob_match(p, knob); }
 	std::vector<int> program_params(int p) const { return v_[0]->program_params(p); }
 	int program_extra(int offset) const { return v_[from_]->program_extra(offset); }
 	int param(int index) const { return v_[from_]->param(index); }

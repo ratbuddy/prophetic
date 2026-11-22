@@ -161,6 +161,61 @@ int main(int argc, char **argv)
 		check(s.perf_knob_value(bk) == 127 - before, "knob position restored without edits");
 	}
 	drain(s);
+	// the knob position that agrees with each program (what the plugin shows): equal to a search
+	// through the knob routine itself (from the freshly loaded program, a move to x: the edits it
+	// sends), and a position where a move sends nothing whenever there is one. The search runs on
+	// an engine that is never rendered (only its edit state matters; its message queue overflows)
+	{
+		kp::Synth b;
+		b.load(argv[1], err);
+		int knobs = 0, same = 0, stored_ok = 0, match_ok = 0, exact_any = 0, moved = 0;
+		for (int p = 0; p < s.program_count(); p++)
+			for (int k = 0; k < kp::pe::kKnobs; k++)
+			{
+				const auto v = b.program_params(p);
+				int best = -1;
+				double best_dev = 0;
+				bool any = false, at_stored = false;
+				const int stored = s.program_perf(p).knob[k];
+				for (int x = 0; x < 128; x++)
+				{
+					b.program(p);
+					b.set_perf_position(k, x == 0 ? 1 : 0);
+					kp::pe::Edit e[kp::pe::kSets];
+					const int n = b.perf_knob(k, x, e);
+					double dev = 0;
+					for (int i = 0; i < n; i++)
+					{
+						const auto &d = kp::prm::kDefs[e[i].index];
+						dev += double(std::abs(e[i].value - v[size_t(e[i].index)])) / double(d.hi - d.lo + 1);
+					}
+					any = any || n == 0;
+					at_stored = at_stored || (n == 0 && x == stored);
+					if (best < 0 || dev < best_dev || (dev == best_dev && std::abs(x - stored) < std::abs(best - stored)))
+					{
+						best = x;
+						best_dev = dev;
+					}
+				}
+				const int m = s.program_knob_match(p, k);
+				knobs++;
+				same += m == best;
+				stored_ok += at_stored;
+				exact_any += any;
+				moved += m != stored;
+				if (any)
+				{
+					b.program(p);
+					b.set_perf_position(k, m == 0 ? 1 : 0);
+					kp::pe::Edit e[kp::pe::kSets];
+					match_ok += b.perf_knob(k, m, e) == 0;
+				}
+			}
+		std::printf("     %d knobs: the stored position agrees with the program for %d, some position for %d; shown elsewhere: %d\n",
+		            knobs, stored_ok, exact_any, moved);
+		check(same == knobs, "program_knob_match = a search through the knob routine, every program and knob");
+		check(match_ok == exact_any, "where some position agrees with the program, program_knob_match is one (a move there sends nothing)");
+	}
 	std::printf("%s\n", fails ? "FAILED" : "all checks passed");
 	return fails ? 1 : 0;
 }

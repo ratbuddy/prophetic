@@ -97,6 +97,13 @@ public:
 	bool pe_switch_on(int set) const;
 	bool has_perf() const { return have_perf_; }
 	pe::Program program_perf(int p) const;          // program p's stored settings (valid false: none)
+	// The position of knob k that agrees best with program p's own values, as the knob routine
+	// computes them right after program(p): a position where turning the knob there edits nothing
+	// if there is one, else the least change (summed over its switched-on sets as a fraction of
+	// each parameter's range); ties: nearest the stored position. The stored position is often
+	// elsewhere (the V55 applies the sets only when the knob moves, so a program need not agree
+	// with its own stored knobs). Pure: changes nothing. -1 without PE data.
+	int program_knob_match(int p, int knob) const;
 
 	// Program data only the V55 keeps (the H8 never sees it), edited like a program parameter (the
 	// loaded program's copy; a program change reloads the stored one): Controller Assignment (dump

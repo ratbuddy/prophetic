@@ -780,6 +780,39 @@ pe::Program Synth::program_perf(int p) const
 	return p >= 0 && p < int(programs_.size()) ? programs_[p].perf : pe::Program{};
 }
 
+int Synth::program_knob_match(int p, int knob) const
+{
+	if (p < 0 || p >= int(programs_.size()) || knob < 0 || knob >= pe::kKnobs || !have_perf_ || !programs_[p].perf.valid)
+		return -1;
+	const Program &pr = programs_[p];
+	prm::Record r = pr.record;   // the edit buffer program(p) leaves (record + its PE values)
+	for (const auto &e : pr.edits)
+		apply_edit(r, e.data());
+	const int stored = pr.perf.knob[knob];
+	int best = -1;
+	double best_dev = 0;
+	for (int x = 0; x < 128; x++)
+	{
+		pe::Edit e[pe::kSets];
+		const int n = pe::knob(pr.perf, pr.perf.sw, knob, x, curve_, r, e);
+		double dev = 0;
+		for (int i = 0; i < n; i++)   // what edit_locked would send: active parameters that change
+		{
+			const prm::Def &d = prm::kDefs[e[i].index];
+			if (!prm::active(r, d))
+				continue;
+			const int diff = std::abs(e[i].value - prm::get(r, d));
+			dev += double(diff) / double(d.hi - d.lo + 1);
+		}
+		if (best < 0 || dev < best_dev || (dev == best_dev && std::abs(x - stored) < std::abs(best - stored)))
+		{
+			best = x;
+			best_dev = dev;
+		}
+	}
+	return best;
+}
+
 void Synth::ramp(int id, int &last, int target)
 {
 	// The V55 sends four interpolated steps and then the final value (measured on the oracle).
