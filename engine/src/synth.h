@@ -79,6 +79,10 @@ public:
 	void set_knob_assign(int knob, int code);
 	int knob_assign(int knob) const;
 	int controller_value(int id) const;   // last value sent for an H8 controller id (0x0E bend: signed)
+	// Send every H8 controller whose last value differs from other's (wheels, pedals, CCs, bend,
+	// aftertouch, the PE knobs' CCs), so this engine's controllers match it, and take its bend /
+	// aftertouch ramp start: a voice brought in beside a playing one (PolySynth::match_controllers).
+	void match_controllers(const Synth &other);
 
 	// Performance Editor (needs ic12.bin: the factory programs' PE settings and the V55's curve
 	// table). Knobs 0..4 = PE knobs 1..5 (0..127), sets 0..3 = PE1..PE4. perf_knob() is what turning

@@ -609,6 +609,23 @@ int Synth::controller_value(int id) const
 	return (id & 0x7f) == 0x0e ? int(std::int16_t(v)) : v;
 }
 
+void Synth::match_controllers(const Synth &other)
+{
+	if (&other == this)
+		return;
+	std::array<std::uint16_t, 128> v;
+	{
+		std::lock_guard<std::mutex> lk(other.mu_);
+		v = other.ctlv_;
+	}
+	std::lock_guard<std::mutex> lk(mu_);
+	for (int id = 0; id < 128; id++)
+		if (ctlv_[size_t(id)] != v[size_t(id)])
+			controller_locked(id, v[size_t(id)]);
+	bend_ = other.bend_;
+	pressure_ = other.pressure_;
+}
+
 void Synth::nrpn_switch_locked(const Nrpn &n)
 {
 	if (n.number < 6 || n.number > 9)

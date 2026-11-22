@@ -64,16 +64,35 @@ void PolySynth::set_voices(int n)
 {
 	const int have = loaded_.load(std::memory_order_acquire);
 	n = n < 1 ? 1 : (n > have ? have : n);
-	for (int k = n; k < voices_; k++)
+	for (int k = n; k < voices_; k++)   // dropped: released, silenced, faded out (render)
 	{
 		if (held_[k])
 			v_[k]->note_off(note_[k]);
 		held_[k] = false;
 		note_[k] = -1;
-		v_[k]->midi_cc(123, 0);   // processed when the voice is active again (the caller resyncs it then)
+		v_[k]->midi_cc(123, 0);
 		v_[k]->midi_cc(120, 0);
+		if (fade_[k] == 0)
+			fading_++;
+		fade_[k] = kFadeFrames;
+	}
+	for (int k = voices_; k < n; k++)   // added (the caller brings them up to date)
+	{
+		if (fade_[k] > 0)
+		{
+			fade_[k] = 0;
+			fading_--;
+		}
+		when_[k] = ++clock_;   // as if just released: a free voice that is ready takes the next note first
 	}
 	voices_ = n;
+	from_ = 0;
+}
+
+void PolySynth::match_controllers(int first)
+{
+	for (int k = first < 1 ? 1 : first; k < voices_; k++)
+		v_[k]->match_controllers(*v_[0]);
 }
 
 void PolySynth::note_on(int note, int velocity)
@@ -143,7 +162,7 @@ void PolySynth::poly_pressure(int note, int value, Synth::KnobMoves *moved)
 }
 
 #define KP_ALL(call)                         \
-	for (int k = 0; k < voices_; k++)        \
+	for (int k = from_; k < voices_; k++)    \
 		v_[k]->call;
 
 void PolySynth::program(int index) { KP_ALL(program(index)) }
@@ -165,31 +184,31 @@ void PolySynth::pitch_bend(int value14) { KP_ALL(pitch_bend(value14)) }
 
 void PolySynth::aftertouch(int value, Synth::KnobMoves *moved)
 {
-	v_[0]->aftertouch(value, moved);
-	for (int k = 1; k < voices_; k++)
+	v_[from_]->aftertouch(value, moved);
+	for (int k = from_ + 1; k < voices_; k++)
 		v_[k]->aftertouch(value, nullptr);
 }
 
 Synth::Nrpn PolySynth::midi_cc(int cc, int value, Synth::KnobMoves *moved)
 {
-	const Synth::Nrpn n = v_[0]->midi_cc(cc, value, moved);
-	for (int k = 1; k < voices_; k++)
+	const Synth::Nrpn n = v_[from_]->midi_cc(cc, value, moved);
+	for (int k = from_ + 1; k < voices_; k++)
 		v_[k]->midi_cc(cc, value, nullptr);
 	return n;
 }
 
 int PolySynth::perf_knob(int knob, int value, pe::Edit out[pe::kSets])
 {
-	const int n = v_[0]->perf_knob(knob, value, out);
+	const int n = v_[from_]->perf_knob(knob, value, out);
 	pe::Edit scratch[pe::kSets];
-	for (int k = 1; k < voices_; k++)
+	for (int k = from_ + 1; k < voices_; k++)
 		v_[k]->perf_knob(knob, value, scratch);
 	return n;
 }
 
 void PolySynth::render(float *left, float *right, int n)
 {
-	if (voices_ == 1)
+	if (voices_ == 1 && fading_ == 0)
 	{
 		v_[0]->render(left, right, n);
 		return;
@@ -206,6 +225,20 @@ void PolySynth::render(float *left, float *right, int n)
 				left[off + i] += mix_l_[size_t(i)];
 				right[off + i] += mix_r_[size_t(i)];
 			}
+		}
+		for (int k = voices_; fading_ > 0 && k < kMaxVoices; k++)   // dropped voices: a linear fade to silence
+		{
+			if (fade_[k] == 0)
+				continue;
+			v_[k]->render(mix_l_.data(), mix_r_.data(), c);
+			for (int i = 0; i < c && fade_[k] > 0; i++)
+			{
+				const float g = float(fade_[k]--) / float(kFadeFrames);
+				left[off + i] += g * mix_l_[size_t(i)];
+				right[off + i] += g * mix_r_[size_t(i)];
+			}
+			if (fade_[k] == 0)
+				fading_--;
 		}
 		off += c;
 	}

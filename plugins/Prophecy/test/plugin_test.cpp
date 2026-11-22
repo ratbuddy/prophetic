@@ -5,6 +5,7 @@
 // Usage: plugin_test <path to the native plugin library>
 #include "mpc_vst2_abi.h"
 
+#include <algorithm>
 #include <chrono>
 #include <cmath>
 #include <fstream>
@@ -429,6 +430,42 @@ int main(int argc, char **argv)
 		std::printf("     Voices %s: one note rms %.4f; chord with Out Level 0 %.6f; chord %.4f\n", shown.c_str(), one, edited, three);
 		check(shown == "3" && edited < 0.05 * one, "Voices 1 -> 3: the voices switched on take the program's edits");
 		check(three > 1.4 * one, "Voices 3: a three-note chord sounds as three notes");
+	}
+	{
+		// Voices raised while a note plays (Perf Knob 1 moved first): the note plays on
+		// undisturbed: the output equals a run without the change, sample for sample
+		Instance a(entry), b(entry);
+		std::this_thread::sleep_for(std::chrono::seconds(2));   // the other voices load in the background
+		auto capture = [](Instance &v, double seconds) {
+			std::vector<float> o;
+			float *out[2] = { v.l.data(), v.r.data() };
+			for (int k = int(seconds * 44100 / 128); k > 0; k--)
+			{
+				v.e->processReplacing(v.e, nullptr, out, 128);
+				o.insert(o.end(), v.l.begin(), v.l.end());
+				o.insert(o.end(), v.r.begin(), v.r.end());
+			}
+			return o;
+		};
+		for (Instance *v : { &a, &b })
+		{
+			v->disp(effSetProgram, 0, 21);
+			v->run(0.8);
+			v->e->setParameter(v->e, v->param("Perf Knob 1"), 1.0f);
+			v->run(0.2);
+			v->midi(0x90, 60, 100);
+			v->run(0.4);
+		}
+		a.e->setParameter(a.e, a.param("Voices"), (4 - 1) / float(kp_max_voices() - 1));
+		const auto oa = capture(a, 1.0), ob = capture(b, 1.0);
+		double diff = 0, peak = 0;
+		for (size_t i = 0; i < oa.size(); i++)
+		{
+			diff = std::max(diff, double(std::fabs(oa[i] - ob[i])));
+			peak = std::max(peak, double(std::fabs(ob[i])));
+		}
+		std::printf("     Voices 1 -> %s during a note: largest difference %.3g (peak %.3f)\n", a.display(a.param("Voices")).c_str(), diff, peak);
+		check(peak > 1e-3 && oa == ob, "Voices raised during a note: no dropout, the note plays on sample for sample");
 	}
 	std::printf("%s (%d failures)\n", fails ? "FAIL" : "PASS", fails);
 	return fails ? 1 : 0;

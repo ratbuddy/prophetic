@@ -544,14 +544,12 @@ public:
 		if (!ok_)
 			return;
 		const auto t_start = std::chrono::steady_clock::now();   // Engine Load: this whole block
-		// Voices: set first, so everything this block sends reaches the voices added
+		// Voices: as many as have loaded (the rest join as they arrive); the voices added are
+		// brought up to date after this block's edits (resync_voices), the others play on
 		const int voices = getInt(kVoices), voices_before = synth_.voices();
-		bool voices_grew = false;
 		if (voices != voices_before)
-		{
-			synth_.set_voices(voices);   // as many as have loaded (the rest join as they arrive)
-			voices_grew = synth_.voices() > voices_before;
-		}
+			synth_.set_voices(voices);
+		const int first_added = synth_.voices() > voices_before ? voices_before : 0;
 		log_on_.store(getBool(kMidiLog), std::memory_order_relaxed);
 		synth_.set_idle_sleep(getBool(kIdleSleep));
 		log_transport(ctx.transport);
@@ -560,7 +558,6 @@ public:
 		if (ctx.sampleRate > 0)
 			log_rate_.store(ctx.sampleRate);
 		const int restore = restore_program_.exchange(-1);
-		bool reloaded = restore >= 0;
 		if (restore >= 0)
 		{
 			host_program_ = currentProgram();
@@ -581,13 +578,12 @@ public:
 		{
 			host_program_ = currentProgram();       // preset chosen on the host
 			load_program(host_program_, false);     // the program's own values
-			reloaded = true;
 		}
-		if (voices_grew && !reloaded)
-			resync_voices();
 		if (revert_volume_.exchange(false))
 			set(kVolume, user_volume_.load());      // the master volume is not part of a program
 		sync_edits();
+		if (first_added > 0)
+			resync_voices(first_added);
 		update_arp();
 		for (int e = 0; e < ctx.numMidiEvents; ++e)
 			handle(ctx.midi[e]);
@@ -1001,16 +997,20 @@ private:
 	// kFadeMs and stays muted until the next note on, and once faded the engine counts as silent
 	// for idle sleep (Synth::set_muted): it sleeps 1 s after the Stop. The next note wakes it where
 	// it stopped, the way idle sleep always resumes.
-	// Voices added: every voice takes the current state, as for a project load: the program with its
-	// edits (sync_edits sends what differs from the program), the Performance Editor Define edits,
-	// and the global settings (the caches forget what was sent, so the next sync re-sends them).
-	void resync_voices()
+	// Voices added (first.. on): they take the current state, as for a project load, while the
+	// voices already playing are left alone (only_from): the program with its edits (sync_edits
+	// sends what differs from the program), the Performance Editor Define edits, the global
+	// settings (the caches forget what was sent, so the sync re-sends them), then voice 0's
+	// controllers (wheels, pedals, bend, aftertouch, the PE knobs' CCs). The caches end as before:
+	// the playing voices already hold every value the sync sends.
+	void resync_voices(int first)
 	{
 		if (applied_program_ < 0)
 			return;
 		std::array<int, 80> define{};
-		for (int k = 0; k < 80; k++)
+		for (int k = 0; k < 80; k++)   // voice 0's
 			define[size_t(k)] = synth_.program_extra(444 + k);
+		synth_.only_from(first);
 		load_program(applied_program_, true);
 		for (int k = 0; k < 80; k++)
 			synth_.set_program_extra(444 + k, define[size_t(k)]);
@@ -1023,6 +1023,9 @@ private:
 		user_scale2_ = make_unsent();
 		for (auto &c : knob_ctl_)
 			c = -1;
+		sync_edits();
+		synth_.match_controllers(first);
+		synth_.only_from(0);
 	}
 
 	static constexpr float kFadeMs = 30.0f;
