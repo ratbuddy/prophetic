@@ -1,3 +1,4 @@
 [
-  { "version": "0.1.0", "device": "MPC Live III", "firmware": "3.10.1", "date": "2026-11-18" }
+  { "id": "kp-sim-prophetic", "version": "0.1.0", "device": "MPC Live III (Gen2)", "firmware": "3.10.1", "date": "2026-11-18" },
+  { "id": "kp-sim-prophetic", "version": "0.1.1", "device": "MPC Live III (Gen2)", "firmware": "3.10.1", "date": "2026-11-22" }
 ]
